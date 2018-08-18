@@ -26,6 +26,6 @@ See subproject [Pool-Monitor](Pool-Monitor)
 
 TBD
 
-# Simmilar Projects
+# Similar Projects
 
 * https://github.com/DavidAntliff/esp32-poolmon
