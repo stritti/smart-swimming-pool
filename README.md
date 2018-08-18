@@ -1,6 +1,6 @@
 # Smart Swimming-Pool
 
-Control my swimming pool a little bit smarter :)
+Pool automation to control my swimmingpool a little bit smarter :)
 
 *Status:* Project is sucessfully live since May 2018.
 
@@ -26,6 +26,15 @@ See subproject [Pool-Monitor](Pool-Monitor)
 
 TBD
 
-# Similar Projects
+# License
+
+[License](License)
+
+---
+
+My Smart Home Blog: https://medium.com/diy-my-smart-home 
+
+
+# Other Smart Pool Projects
 
 * https://github.com/DavidAntliff/esp32-poolmon
