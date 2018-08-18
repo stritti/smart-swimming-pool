@@ -1,6 +1,6 @@
 # Smart Swimming-Pool
 
-Control my swimming pool a little bit smarter :)
+Pool automation to control my swimmingpool a little bit smarter :)
 
 *Status:* Project is sucessfully live since May 2018.
 
