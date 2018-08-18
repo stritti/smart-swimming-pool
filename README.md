@@ -26,6 +26,15 @@ See subproject [Pool-Monitor](Pool-Monitor)
 
 TBD
 
-# Similar Projects
+# License
+
+[License](License)
+
+---
+
+My Smart Home Blog: https://medium.com/diy-my-smart-home 
+
+
+# Other Smart Pool Projects
 
 * https://github.com/DavidAntliff/esp32-poolmon
