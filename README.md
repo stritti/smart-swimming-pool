@@ -26,6 +26,13 @@ See subproject [Pool-Monitor](Pool-Monitor)
 
 TBD
 
+# Development
+
+* Platform.io IDE
+
+## Drivers
+Install the NodeMCU drivers for your respective operating system if they are not autodetected: https://www.silabs.com/products/mcu/Pages/USBtoUARTBridgeVCPDrivers.aspx
+
 # License
 
 [License](License)
