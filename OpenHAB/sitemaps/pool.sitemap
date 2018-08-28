@@ -1,0 +1,93 @@
+
+sitemap pool label="Pool Automation" icon="pool" {
+
+	Frame label="Steuerung" {
+			Switch  item=Pool_Mode 		label="Modus" 			icon="settings" 	mappings=[0="Auto", 1="Manu", 2="Boost"]
+
+			Text    item=Switch_Pump    label="Pumpe [%s]"  icon="pump" visibility=[Pool_Mode==0, Pool_Mode==2]
+			Switch  item=Switch_Pump    label="Pumpe"       icon="pump" visibility=[Pool_Mode==1]
+
+			Text    item=Switch_Solar   label="Solar [%s]"  icon="solarplant" visibility=[Pool_Mode==0, Pool_Mode==2]
+			Switch  item=Switch_Solar   label="Solar"       icon="solarplant" visibility=[Pool_Mode==1]
+	}
+
+	Frame label="aktuelle Temperaturen" {
+
+		Text item=Sensor_Pool_Temperature label="Wasser [%.1f °C]"     icon="temperature" valuecolor=[>30="orange",>20="green",<=20="blue"] {
+
+			Text item=CurrentTemperature   label="Luft [%.1f °C]"   icon="temperature" valuecolor=[>25="orange",>15="green",<=15="blue"]
+			Text item=Sensor_Pool_Temperature  label="Wasser [%.1f °C]" icon="temperature" valuecolor=[>30="orange",>20="green",<=20="blue"]
+			Text item=Sensor_Solar_Temperature label="Solar [%.1f °C]"  icon="temperature" valuecolor=[>30="orange",>20="green",<=20="blue"]
+			Text item=Sensor_ESP_Temperature label="ESP [%.1f °C]"  icon="temperature" valuecolor=[>30="orange",>20="green",<=20="blue"]
+
+			//Chart item=Chart_Pool_Temperature period=4h  service="rrd4j" refresh=60000 visibility=[Chart_Intervall==0, Chart_Intervall=="Uninitialized"]
+			//Chart item=Chart_Pool_Temperature period=12h service="rrd4j" refresh=60000 visibility=[Chart_Intervall==1]
+			//Chart item=Chart_Pool_Temperature period=D   service="rrd4j" refresh=60000 visibility=[Chart_Intervall==2]
+			//Chart item=Chart_Pool_Temperature period=3D  service="rrd4j" refresh=60000 visibility=[Chart_Intervall==3]
+			Image url="http://smarthome-pi.local:8080/rrdchart.png?groups=Chart_Pool_Temperature&period=4h" refresh=60000 visibility=[Chart_Intervall==0, Chart_Intervall==NULL]
+			Image url="http://smarthome-pi.local:8080/rrdchart.png?groups=Chart_Pool_Temperature&period=12h" refresh=60000 visibility=[Chart_Intervall==1]
+			Image url="http://smarthome-pi.local:8080/rrdchart.png?groups=Chart_Pool_Temperature&period=D" refresh=60000 visibility=[Chart_Intervall==2]
+			Image url="http://smarthome-pi.local:8080/rrdchart.png?groups=Chart_Pool_Temperature&period=3D" refresh=60000 visibility=[Chart_Intervall==3]
+
+		}
+		Text item=CurrentTemperature   label="Luft [%.1f °C]"   icon="temperature" valuecolor=[>25="orange",>15="green",<=15="blue"]
+		//Text item=Sensor_Air_Temperature   label="Luft [%.1f °C]"   icon="temperature" valuecolor=[>25="orange",>15="green",<=15="blue"]
+
+	}
+
+	Frame label="Erweitert" {
+			Text label="Charts" icon="line" {
+
+					Frame label="Temperatur"  icon="temperature" {
+
+							Image url="http://smarthome-pi.local:8080/rrdchart.png?groups=Chart_Pool_Temperature&period=4h" refresh=60000 visibility=[Chart_Intervall==0, Chart_Intervall==NULL]
+							Image url="http://smarthome-pi.local:8080/rrdchart.png?groups=Chart_Pool_Temperature&period=12h" refresh=60000 visibility=[Chart_Intervall==1]
+							Image url="http://smarthome-pi.local:8080/rrdchart.png?groups=Chart_Pool_Temperature&period=D" refresh=60000 visibility=[Chart_Intervall==2]
+							Image url="http://smarthome-pi.local:8080/rrdchart.png?groups=Chart_Pool_Temperature&period=3D" refresh=60000 visibility=[Chart_Intervall==3]
+					}
+
+					Frame label="Schaltzeiten" icon="switch"  {
+							Image url="http://smarthome-pi.local:8080/rrdchart.png?groups=Chart_Pool_Switch&period=4h" refresh=60000 visibility=[Chart_Intervall==0, Chart_Intervall==NULL]
+							Image url="http://smarthome-pi.local:8080/rrdchart.png?groups=Chart_Pool_Switch&period=12h" refresh=60000 visibility=[Chart_Intervall==1]
+							Image url="http://smarthome-pi.local:8080/rrdchart.png?groups=Chart_Pool_Switch&period=D" refresh=60000 visibility=[Chart_Intervall==2]
+							Image url="http://smarthome-pi.local:8080/rrdchart.png?groups=Chart_Pool_Switch&period=3D" refresh=60000 visibility=[Chart_Intervall==3]
+					}
+
+			}
+
+			Text label="Einstellungen" icon="settings" {
+
+				Frame label="Charts" {
+						Switch item=Chart_Intervall label="Zeitspanne" icon="time" mappings=[0="  4h ", 1=" 12h ", 2="1 Tag", 3="3 Tage"]
+				}
+
+				Frame label="Schaltzeiten Pumpe" {
+						Setpoint item=Setting_Time_Pool_Valve_Start_H label="HH: ein [%.0f h]" icon="time" minValue=0 maxValue=23 step=1
+						Setpoint item=Setting_Time_Pool_Valve_Start_M label="MM: ein [%.0f m]"  minValue=0 maxValue=59 step=10
+
+						Setpoint item=Setting_Time_Pool_Valve_Stop_H label="HH: aus [%.0f h]" icon="time" minValue=0 maxValue=23 step=1
+						Setpoint item=Setting_Time_Pool_Valve_Stop_M label="MM: aus [%.0f m]"  minValue=0 maxValue=59 step=10
+				}
+
+				Frame label="Temperaturen" {
+						Setpoint item=Setting_Temperature_Pool_Max label="max. Pool [%.0f °C]" icon="heating" minValue=0.0 maxValue=35.0 step=1
+
+						Setpoint item=Setting_Temperature_Solar_Min label="min. Solar [%.0f °C]" icon="heating" minValue=0.0 maxValue=100.0 step=1
+						//Text item=ForecastProbaPrecip label="Niederschl."
+						//Text item=ForecastTomorrowProbaPrecip label="Niederschl. morgen"
+
+						Setpoint item=Setting_Temperature_Solar_Hysteresis label="Solar Hysterese [%.0f K]" icon="line" minValue=0.0 maxValue=10.0 step=0.5
+				}
+
+				Frame label="System" {
+					Switch  item=OpenHab_Restart          label="System ..." icon="returnpipe" mappings=[ON="Restart"]
+					Text    item=OpenHab_FriendlyUptime   label="System Uptime [%s]" icon="time"
+				}
+			}
+
+	Text item=Last_Update_DateTime     label="Device updated [%1$tR %1$td.%1$tm.]" icon="time"
+	Text item=Sensor_Device_StartedAt  label="Device started [%1$tR %1$td.%1$tm.]" icon="time"
+
+	}
+
+}

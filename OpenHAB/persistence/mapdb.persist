@@ -1,0 +1,24 @@
+Strategies {
+    default = everyUpdate
+}
+Items {
+    // persist all items on every change and restore them from the db at startup
+    * : strategy = everyChange, restoreOnStartup
+
+		Setting_Temperature_Pool_Max  : strategy = everyUpdate, restoreOnStartup
+	  Setting_Temperature_Solar_Min : strategy = everyUpdate, restoreOnStartup
+		Setting_Temperature_Solar_Hysteresis : strategy = everyUpdate, restoreOnStartup
+
+		Setting_Time_Pool_Valve_Start_H : strategy = everyUpdate, restoreOnStartup
+		Setting_Time_Pool_Valve_Start_M : strategy = everyUpdate, restoreOnStartup
+
+		Setting_Time_Pool_Valve_Stop_H  : strategy = everyUpdate, restoreOnStartup
+		Setting_Time_Pool_Valve_Stop_M  : strategy = everyUpdate, restoreOnStartup
+
+		Sensor_Solar_Temperature : strategy = everyUpdate, restoreOnStartup
+		Sensor_Pool_Temperature  : strategy = everyUpdate, restoreOnStartup
+		
+		Switch_Pump : strategy = everyUpdate, restoreOnStartup
+		Switch_Solar: strategy = everyUpdate, restoreOnStartup
+		Pool_Mode   : strategy = everyUpdate, restoreOnStartup
+}

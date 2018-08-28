@@ -1,0 +1,340 @@
+import org.joda.time.LocalTime
+
+var Number POOL_MODE_AUTO = 0.0
+var Number POOL_MODE_MANU = 1.0
+var Number POOL_MODE_BOOST = 2.0
+
+//------------------------------------------------------------------------
+// Init virtual Items
+//------------------------------------------------------------------------
+rule "Init virtual Items"
+when
+	System started
+then
+	createTimer(now.plusSeconds(180)) [ | // let persistance finish restoring a few seconds
+		logDebug("pool.rules", "Rule: Init virtual Items ...")
+
+		if (Setting_Temperature_Pool_Max.state == NULL) {
+			Setting_Temperature_Pool_Max.postUpdate(28.0)
+			//postUpdate ist nur für Aktualisierungen innerhalb von openHAB (sendCommand gibt diese auch auf den Bus)
+		}
+		if (Setting_Temperature_Solar_Min.state == NULL) {
+			Setting_Temperature_Solar_Min.postUpdate(50.0)
+		}
+		if (Setting_Temperature_Solar_Hysteresis.state == NULL) {
+			Setting_Temperature_Solar_Hysteresis.postUpdate(2.0)
+		}
+
+		if (Setting_Time_Pool_Valve_Start_H.state == NULL) {
+			Setting_Time_Pool_Valve_Start_H.postUpdate(11)
+		}
+		if (Setting_Time_Pool_Valve_Start_M.state == NULL ) {
+			Setting_Time_Pool_Valve_Start_M.postUpdate(30)
+		}
+
+		if (Setting_Time_Pool_Valve_Stop_H.state == NULL) {
+			Setting_Time_Pool_Valve_Stop_H.postUpdate(18)
+		}
+		if (Setting_Time_Pool_Valve_Stop_M.state == NULL) {
+			Setting_Time_Pool_Valve_Stop_M.postUpdate(30)
+		}
+
+		if(Sensor_Solar_Temperature.state == NULL) {
+			Sensor_Solar_Temperature.postUpdate(0)
+		}
+
+		if(Sensor_Pool_Temperature.state == NULL) {
+			Sensor_Pool_Temperature.postUpdate(0)
+		}
+
+		if(Switch_Pump.state == NULL) {
+			Switch_Pump.sendCommand(OFF)
+		}
+
+		if(Switch_Solar.state == NULL) {
+			Switch_Solar.sendCommand(OFF)
+		}
+
+		if(Pool_Mode.state == NULL) {
+			Pool_Mode.sendCommand(POOL_MODE_AUTO)
+		}
+	]
+
+end
+
+//------------------------------------------------------------------------
+// Zeitsteuerung der Poolpumpe
+//------------------------------------------------------------------------
+rule "Poolpumpe: Zeitsteuerung"
+when
+		//every Minute
+		Time cron "0 * * * * ?" or
+		Item Pool_Mode changed
+then
+		logDebug("pool.rules", "Rule: Poolpumpe Steuern ...")
+
+		if (Pool_Mode.state == POOL_MODE_AUTO) {
+			//AUTOMATIC
+			logDebug("pool.rules", "     AUTOMATIC")
+
+			var Number sollStundeStart = (Setting_Time_Pool_Valve_Start_H.state as DecimalType).intValue
+			var Number sollMinuteStart = (Setting_Time_Pool_Valve_Start_M.state as DecimalType).intValue
+			val LocalTime startTime = new LocalTime(sollStundeStart.intValue, sollMinuteStart.intValue)
+
+			var Number sollStundeStop = (Setting_Time_Pool_Valve_Stop_H.state as DecimalType).intValue
+			var Number sollMinuteStop = (Setting_Time_Pool_Valve_Stop_M.state as DecimalType).intValue
+  		val LocalTime endTime = new LocalTime(sollStundeStop.intValue, sollMinuteStop.intValue)
+
+  		if (now.toLocalTime().isAfter(startTime) && now.toLocalTime().isBefore(endTime)) {
+
+				if (Switch_Pump.state == OFF) {
+					logInfo("pool.rules", "Rule: Poolpumpe einschalten ...")
+					Switch_Pump.sendCommand(ON);
+				}
+  		} else	{
+
+				if (Switch_Pump.state == ON) {
+					logInfo("pool.rules", "Rule: Poolpumpe & Solar ausschalten ...")
+					Switch_Pump.sendCommand(OFF);
+					Switch_Solar.sendCommand(OFF) //to be shure
+				}
+			}
+
+		} else if (Pool_Mode.state == POOL_MODE_MANU) {
+			logDebug("pool.rules", "     MANUELL")
+
+		} else if (Pool_Mode.state == POOL_MODE_BOOST) {
+			logDebug("pool.rules", "     BOOST")
+
+
+
+		}	else {
+				logError("pool.rules", "UNDEFINED Pool_Mode: " + Pool_Mode.state )
+		}
+end
+
+//------------------------------------------------------------------------
+// Steuert die Solarpumpe.
+//------------------------------------------------------------------------
+rule "Solarpumpe steuern: AUTOMATIC Mode"
+when
+		Item Pool_Mode changed or
+		Item Sensor_Solar_Temperature changed or
+		Item Sensor_Pool_Temperature changed
+
+then
+	if(Pool_Mode.state == POOL_MODE_AUTO) {
+			logInfo("pool.rules", "Solarpumpe steuern AUTOMATIC ...")
+
+			if (Switch_Pump.state == ON) {
+				logInfo("pool.rules", "Rule: Poolpumpe läuft, Solarstatus prüfen ...")
+
+				var Number hysteresis = Setting_Temperature_Solar_Hysteresis.state as DecimalType
+				var Number solarTemp = Sensor_Solar_Temperature.state as DecimalType
+				var Number poolTemp = Sensor_Pool_Temperature.state as DecimalType
+				var Number solarWaterMin = Setting_Temperature_Solar_Min.state as DecimalType
+				var Number poolWaterMax = Setting_Temperature_Pool_Max.state as DecimalType
+
+				if (Switch_Solar.state == OFF) {
+					if(poolTemp < (poolWaterMax /* + hysteresis */ )) {
+						logInfo("pool.rules", "      Pool aufheizen, Temeratur noch nicht erreicht.")
+
+						if ((solarTemp >= (solarWaterMin + hysteresis)) && (solarTemp > poolTemp)) {
+							logInfo("pool.rules", "      Solarpumpe einschalten: solarTemp hat Mindesttemperatur (+ Hysterese) im Kessel überschritten")
+							Switch_Solar.sendCommand(ON)
+						} else {
+							//bleibt aus
+							logInfo("pool.rules", "      Solarwasser zu kalt. Solarpumpe bleibt aus.")
+							Switch_Solar.sendCommand(OFF) // to be shure
+						}
+
+					} else {
+						logInfo("pool.rules", "      Pool hat Temeratur. Solar bleibt aus.")
+						Switch_Solar.sendCommand(OFF) //to be shure
+					}
+
+
+				} else if (Switch_Solar.state == ON){
+
+					if (solarTemp < (solarWaterMin - hysteresis))  {
+						logInfo("pool.rules", "      Solarpumpe ausschalten? solarTemp  hat Mindesttemperatur (- Hysterese) im Kessel unterschritten")
+						Switch_Solar.sendCommand(OFF)
+
+					} else if (poolTemp > (poolWaterMax /* + hysteresis */)) {
+						logInfo("pool.rules", "      Pooltemperatur erreicht, Solar abschalten!")
+						Switch_Solar.sendCommand(OFF)
+
+					} else if((solarTemp - hysteresis) <= poolTemp) {
+						logInfo("pool.rules", "      Solar kälter als Poolwasser: Solar abschalten.")
+						Switch_Solar.sendCommand(OFF)
+
+					} else {
+						logInfo("pool.rules", "      Pooltemperatur noch nicht erreicht, Solar an lassen!")
+					}
+
+				} else {
+					//for unknown state set always OFF
+					logInfo("pool.rules", "      Solar undefinierter Status: ausschalten.")
+					Switch_Solar.sendCommand(OFF)
+				}
+
+			} else if (Switch_Pump.state == OFF) {
+
+				logInfo("pool.rules", "Rule: Poolpumpe aus, Solar abschalten?")
+				if  (Switch_Solar.state == ON) {
+					//Poolpumpe ist aus, keine Solarsteuerung.
+					logInfo("pool.rules", "Solarpumpe abschalten.")
+					Switch_Solar.sendCommand(OFF)
+
+				} else if (Switch_Solar.state == OFF) {
+					//all is off, nothing to do.
+					Switch_Solar.sendCommand(OFF) //to be shure
+
+				} else {
+					Switch_Solar.sendCommand(OFF)
+
+				}
+			} else {
+				logInfo("pool.rules", "Rule: undefined -> alles aus.")
+				//for unknown state set always OFF
+				Switch_Pump.sendCommand(OFF)
+				Switch_Solar.sendCommand(OFF)
+
+			}
+	}
+end
+
+//------------------------------------------------------------------------
+// Steuert die Solarpumpe: Manuell
+//------------------------------------------------------------------------
+rule "Solarpumpe steuern: MANUELL Mode"
+when
+		Item Pool_Mode changed or
+		Item Sensor_Solar_Temperature changed or
+		Item Sensor_Pool_Temperature changed
+
+then
+	if(Pool_Mode.state == POOL_MODE_MANU) {
+		logInfo("pool.rules", "Solarpumpe steuern MANUELL ...")
+
+	}
+end
+
+//------------------------------------------------------------------------
+// Steuert die Solarpumpe: BOOST
+// Boost-Mode: Heizen solange Solarwasser wärmer als Pool ist und
+//             Pooltemperator noch nicht erreicht wurde.
+//------------------------------------------------------------------------
+rule "Solarpumpe steuern: BOOST Mode"
+when
+		Item Pool_Mode changed or
+		Item Sensor_Solar_Temperature changed or
+		Item Sensor_Pool_Temperature changed
+
+then
+	if(Pool_Mode.state == POOL_MODE_BOOST) {
+		logInfo("pool.rules", "Solarpumpe steuern BOOST ...")
+
+		var Number hysteresis = Setting_Temperature_Solar_Hysteresis.state as DecimalType
+		var Number solarTemp = Sensor_Solar_Temperature.state as DecimalType
+		var Number poolTemp = Sensor_Pool_Temperature.state as DecimalType
+		//var Number solarWaterMin = Setting_Temperature_Solar_Min.state as DecimalType
+		var Number poolWaterMax = Setting_Temperature_Pool_Max.state as DecimalType
+
+		if (Switch_Solar.state == OFF) {
+			if(poolTemp < (solarTemp - hysteresis) && poolTemp < poolWaterMax) {
+				Switch_Pump.sendCommand(ON)
+				Switch_Solar.sendCommand(ON)
+			}
+		} else {
+			if(poolTemp >= solarTemp || poolTemp >= poolWaterMax) {
+				Switch_Pump.sendCommand(OFF)
+				Switch_Solar.sendCommand(OFF)
+			}
+		}
+
+	}
+end
+
+//------------------------------------------------------------------------
+// Device started -> Timestamp
+//------------------------------------------------------------------------
+rule "Pool Sensor Device started"
+when
+		Item Sensor_Device received update
+then
+	Sensor_Device_StartedAt.postUpdate(new DateTimeType())
+	logInfo("pool.rules", "Sensor_Device_StartedAt: "  + Sensor_Device_StartedAt.state)
+	sendBroadcastNotification("Pool Sensor Started at: "  + Sensor_Device_StartedAt.state)
+	// to enshure the switches are set correct:
+	Switch_Pump.postUpdate(Switch_Pump.state)
+	Switch_Solar.postUpdate(Switch_Solar.state)
+end
+
+
+//------------------------------------------------------------------------
+// Speichere Timestamp beim aktualisieren eines der Sensoren.
+//------------------------------------------------------------------------
+rule "Last Temperature Timestamp"
+when
+		Item Sensor_Solar_Temperature received update or
+		Item Sensor_Pool_Temperature received update
+then
+
+	Last_Update_DateTime.postUpdate(new DateTimeType())
+
+end
+
+/*
+
+TODO: fuktioniert so noch nicht 100%
+//------------------------------------------------------------------------
+// Filtert Schwankungen größer 20 °C und ersetzt mit altem WErt (Solarkessel)
+//------------------------------------------------------------------------
+rule "Filter wrong Temperature values"
+when
+    Item Sensor_Solar_Temperature received update
+then
+    var Number T_new = Sensor_Solar_Temperature.state as DecimalType
+    var Number T_old = Sensor_Solar_Temperature.historicState(now.minusMinutes(1)).state as DecimalType
+    var Number T_delta = Math::abs(Sensor_Solar_Temperature.deltaSince(now.minusMinutes(1)).intValue)
+
+		if(T_new <= -120.0) {
+			Sensor_Solar_Temperature.postUpdate(T_old)
+			logInfo("pool.rules", "Sensorkorrektur: Sensor_Solar_Temperature von " + T_new.toString + "°C auf " + T_old.toString + "°C korrigiert.")
+			Sensor_Solar_LastError.postUpdate(new DateTimeType())
+		} else if (T_delta >= 20) {
+        Sensor_Solar_Temperature.postUpdate(T_old)
+        logInfo("pool.rules", "Sensorkorrektur: Sensor_Solar_Temperature von " + T_new.toString + "°C auf " + T_old.toString + "°C korrigiert.")
+				Sensor_Solar_LastError.postUpdate(new DateTimeType())
+    }
+end
+
+
+rule "Wetter Bedingungen"
+when
+	Item ForecastTomorrowProbaPrecip received update
+then
+	var Number tomorrowProbaPrecip = ForecastTomorrowProbaPrecip.state as DecimalType
+
+	if(0 == tomorrowProbaPrecip ) {
+		Setting_Temperature_Solar_Min.postUpdate(40)
+
+	} else if(0 < tomorrowProbaPrecip && tomorrowProbaPrecip <= 5 ) {
+		Setting_Temperature_Solar_Min.postUpdate(42)
+
+	} else if(5 < tomorrowProbaPrecip && tomorrowProbaPrecip <= 10 ) {
+		Setting_Temperature_Solar_Min.postUpdate(45)
+
+	} else if(15 < tomorrowProbaPrecip && tomorrowProbaPrecip <= 30 ) {
+		Setting_Temperature_Solar_Min.postUpdate(50)
+
+	} else if(30 < tomorrowProbaPrecip) {
+		Setting_Temperature_Solar_Min.postUpdate(60)
+
+	} else {
+		Setting_Temperature_Solar_Min.postUpdate(50)
+	}
+
+end
+*/

@@ -1,0 +1,37 @@
+Strategies {
+	/* persistence strategies have a name and definition and are referred to in the "Items" section*/
+	everyMinute : "0 * * * * ?"
+	everyHalf   : "0 30 * * * ?"
+	everyHour   : "0 0 * * * ?"
+	everyDay    : "0 0 0 * * ?"
+
+	/* if no strategy is specified for an Item entry below, the default list will be used */
+	default = everyChange
+}
+
+/*
+ * Each line in this section defines for which Item(s) which strategy(ies) should be applied.
+ * You can list single items, use "*" for all items or "groupitem*" for all members of a group
+ * Item (excl. the group Item itself).
+ */
+Items {
+
+	Chart_Wohnzimmer_Temperature* : strategy = everyMinute, everyChange
+	Chart_Wohnzimmer_Humidity* : strategy = everyMinute, everyChange
+
+	Chart_Bad_Temperature* : strategy = everyMinute, everyChange
+	Chart_Bad_Humidity* : strategy = everyMinute, everyChange
+
+	Chart_Buero_Temperature* : strategy = everyMinute, everyChange
+	Chart_Buero_Humidity* : strategy = everyMinute, everyChange
+
+	Chart_Pool_Temperature* : strategy = everyMinute, everyChange
+	Chart_Pool_Switch* : strategy = everyMinute, everyChange
+	Chart_Pool_Mode* : strategy = everyMinute, everyChange
+
+	Chart_Internet* :  strategy = everyMinute, everyChange
+
+	Chart_Weather_Rain* :  strategy = everyMinute, everyChange
+	Chart_Weather_Temperature* :  strategy = everyMinute, everyChange
+
+}

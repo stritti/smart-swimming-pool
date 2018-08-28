@@ -1,0 +1,27 @@
+
+/*****
+
+	Gruppen für das gesamte Haus übergreifend.
+
+*****/
+
+
+Group gGarten 	"Garten" 							["location:garten", "location:draussen"]
+Group gPool 		"Pool" 			(gGarten)	["location:pool"]
+Group gGarage 	"Garage" 		(gGarten)	["location:garage"]
+
+
+/********
+
+	Gruppen für Item Typen
+
+********/
+
+Group	gLight 				"Licht"						["object:licht", "object:lampe"]
+Group	gSwitch 			"Schalter"				["object:schalter", "object:taster"]
+Group	gTemperature 	"Temperatur"			["object:temperatur", "object:warm"]
+Group	gBattery			"Batterie"				["object:batterie", "object:batteriestatus"]
+
+
+//Gruppe für die Sitemap-Einbindung
+Group   Settings

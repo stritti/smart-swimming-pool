@@ -1,0 +1,56 @@
+//Gruppe für Chart
+Group   Chart_Pool_Temperature
+Group   Chart_Pool_Switch
+Group   Chart_Pool_Mode
+
+String  Sensor_Device (gPool) {
+    mqtt="<[mqtt:/sensor/pool/device:state:JSONPATH($.value)]"
+}
+DateTime Sensor_Device_StartedAt "Last Start [%1$tm.%1$td.%1$tY %1$tr]" //timestamp of the
+
+Number  Sensor_Pool_Temperature "Wasser"
+(gPool, gTemperature, Chart_Pool_Temperature)
+["CurrentTemperature", "object:wasser"]
+{
+    mqtt="<[mqtt:/sensor/pool/temperature:state:JSONPATH($.value)]"
+}
+
+Number  Sensor_Solar_Temperature "Solar"
+(gPool, gTemperature, Chart_Pool_Temperature)
+["CurrentTemperature", "object:solar"] {
+    mqtt="<[mqtt:/sensor/solar/temperature:state:JSONPATH($.value)]"
+}
+
+Number  Sensor_ESP_Temperature "ESP"
+(gPool, gTemperature, Chart_Pool_Temperature)
+["CurrentTemperature", "object:esp"] {
+    mqtt="<[mqtt:/sensor/esp/temperature:state:JSONPATH($.value)]"
+}
+
+Switch Switch_Pump "Pumpe" <switchable>
+(gPool, Chart_Pool_Switch) ["Switchable"] {
+    mqtt=">[mqtt:/pool/switch/11111/10000:command:on:default],>[mqtt:/pool/switch/11111/10000:command:off:default]"
+}
+
+Switch Switch_Solar "Solar" <switchable>
+(gPool, Chart_Pool_Switch) ["Switchable"] {
+    mqtt=">[mqtt:/pool/switch/11111/01000:command:on:default],>[mqtt:/pool/switch/11111/01000:command:off:default]"
+}
+
+//Steuermodus: Automatic=0, Manuell=1, Boost=2
+Number Pool_Mode "Pool Modus" 	(gPool, Chart_Pool_Mode, Settings)
+
+// Benoetigt, um die Zeitintervalle fuer die grafische Darstellung festlegen zu koennen
+Number  Chart_Intervall           "Chart-Intervall" (Settings)
+
+Number  Setting_Temperature_Pool_Max           "Max. Pooltemperatur  [%.1f °C]" (Settings)
+Number  Setting_Temperature_Solar_Min          "Min. Solartemperatur  [%.1f °C]" (Settings)
+Number  Setting_Temperature_Solar_Hysteresis   "Solar Hysterese  [%.1f K]" (Settings)
+
+Number Setting_Time_Pool_Valve_Start_H "Stunde Poolpumpe an"   (Settings)
+Number Setting_Time_Pool_Valve_Start_M "Minuten Poolpumpe an"  (Settings)
+Number Setting_Time_Pool_Valve_Stop_H  "Stunde Poolpumpe aus"  (Settings)
+Number Setting_Time_Pool_Valve_Stop_M  "Minute Poolpumpe aus"  (Settings)
+
+DateTime    Last_Update_DateTime    "Last Update [%1$tm.%1$td.%1$tY %1$tr]"
+DateTime    Sensor_Solar_LastError "Solar: Last Error [%1$tm.%1$td.%1$tY %1$tr]"
