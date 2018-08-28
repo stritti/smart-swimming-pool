@@ -148,25 +148,3 @@ influxdb: admin/admin, openhab/habopen
 ### Cloud-Zugriff
 
 Es muss das aktuelle JDK installiert sein!
-
-# OpenHab System
-Übersicht der Items für Export: http://smarthome-pi.local:8080/static/exporter/ 
-Siehe dazu: https://github.com/eclipse/smarthome/issues/4817#issuecomment-354161855
-## OpenHab Restart
-
-Quelle: http://blog.wenzlaff.de/?p=6885
-
-Achtung: openhab in dem Beispiel jeweils durch openhab2 ersetzen!
-
-- Editor aufrufen
-  ```
-  sudo visudo -f /etc/sudoers.d/openhab2
-  ```
-- den folgenden Eintrag machen und speichern:
-  ``` 
-  openhab ALL = (root) NOPASSWD: /etc/init.d/openhab2  
-  ```
-
-Testen mit einer anderen Konsole ob man sich noch anmelden kann, die Datei /etc/sudoers sollte immer mit dem Befehl visudo bearbeitet werden, da so eine Syntaxüberprüfung gewährleistet ist. Bei der direkten Bearbeitung ohne Prüfung kann der kleinste Tippfehler dazu führen, dass man sich aus dem System aussperrt und nur über den Recovery Modus wieder Zugang erhalten kann.  
-
-Anstelle des Binding-Commands wie im Beispiel, wird der Reboot über eine Regel ausgelöst (siehe ```system.rules```)
