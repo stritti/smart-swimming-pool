@@ -1,5 +1,4 @@
-﻿# Pool Control
-
+# Pool Controller
 
 ## Hardware
 

@@ -1,6 +1,6 @@
 # Smart Swimming-Pool
 
-Pool automation to control my swimmingpool a little bit smarter :)
+Pool automation for smarter control of the swimming pool :)
 
 *Status:* Project is sucessfully live since May 2018.
 
@@ -24,7 +24,7 @@ See subproject [Pool-Monitor](Pool-Monitor)
 
 # OpenHAB Server
 
-TBD
+See subproject [OpenHAB](OpenHAB)
 
 # Development
 
