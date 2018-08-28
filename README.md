@@ -24,7 +24,7 @@ See subproject [Pool-Monitor](Pool-Monitor)
 
 # OpenHAB Server
 
-TBD
+See subproject [OpenHAB](OpenHAB)
 
 # Development
 
