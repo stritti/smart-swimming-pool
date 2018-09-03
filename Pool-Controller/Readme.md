@@ -17,4 +17,4 @@ PIN Usage:
 ## Breadboard
 
 <img src="./doc/Pool-Control_Steckplatine.png" />
-Source: [./doc/Pool-Control.fzz](doc/Pool-Control.fzz)
+Source: [doc/Pool-Control.fzz](doc/Pool-Control.fzz)
