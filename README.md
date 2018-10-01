@@ -35,7 +35,7 @@ Install the NodeMCU drivers for your respective operating system if they are not
 
 # License
 
-[LICENSE](License)
+[LICENSE](LICENSE)
 
 ---
 
