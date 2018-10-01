@@ -28,7 +28,9 @@ See subproject [OpenHAB](OpenHAB)
 
 # Development
 
-* Platform.io IDE
+## Platform.io IDE
+
+TBD
 
 ## Drivers
 Install the NodeMCU drivers for your respective operating system if they are not autodetected: https://www.silabs.com/products/mcu/Pages/USBtoUARTBridgeVCPDrivers.aspx
@@ -42,6 +44,6 @@ Install the NodeMCU drivers for your respective operating system if they are not
 My Smart Home Blog: https://medium.com/diy-my-smart-home 
 
 
-# Other Smart Pool Projects
+# Other Smart Swimmingpool Projects
 
 * https://github.com/DavidAntliff/esp32-poolmon
