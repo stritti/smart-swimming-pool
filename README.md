@@ -14,7 +14,7 @@ This is my private project to control and monitor my pool using following:
 
 # Pool Control
 
-See subproject [Pool-Control](Pool-Control)
+See subproject [Pool-Controller](Pool-Controller)
 
 
 # Pool Monitor
