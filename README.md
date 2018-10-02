@@ -12,7 +12,7 @@ This is my private project to control and monitor my pool using following:
 * _ESP8266_ fo show current temeratures on LCD monitor
 * _Raspberry Pi_ hosting MQTT and OpenHAB for Smart Home automation
 
-# Pool Control
+# Pool Controller
 
 See subproject [Pool-Controller](Pool-Controller)
 
