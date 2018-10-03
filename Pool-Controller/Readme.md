@@ -1,11 +1,12 @@
 # Pool Controller
 
-## Hardware
+## BOM / Hardware
 
 * ESP32 Controller
-* Temperature Sensor Pool
-* Temperature Sensor Solar
-* 433MHz-Switches for Solar- and Pool-Pumps
+* Temperature Sensor Pool (DS18B20)
+* Temperature Sensor Solar (DS18B20)
+* 433MHz HC-12 Sender
+* 433MHz-Plug Switches for Solar- and Pool-Pump
 
 ## Configuration
 
