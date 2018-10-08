@@ -2,7 +2,7 @@
 
 Pool automation for smarter control of the swimming pool :)
 
-*Status:* Project is sucessfully live since May 2018.
+> *Status:* Project is sucessfully live since May 2018.
 
 # Hardware
 
