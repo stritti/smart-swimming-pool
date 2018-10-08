@@ -15,9 +15,8 @@ PIN Usage:
 * PIN_DS_POOL  = 17; // Temp Pool
 * PIN_RSSWITCH = 18; // für 433MHz Sender
 
-## Breadboard
+## Breadboard Layout
 
 <img src="./doc/Pool-Control_Steckplatine.png" />
-
 
 Source (Fritzing): [./doc/Pool-Control.fzz](./doc/Pool-Control.fzz)
