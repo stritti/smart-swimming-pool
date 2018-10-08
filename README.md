@@ -46,4 +46,4 @@ My Smart Home Blog: https://medium.com/diy-my-smart-home
 
 # Other Smart Swimmingpool Projects
 
-* https://github.com/DavidAntliff/esp32-poolmon
+See in [https://github.com/stritti/smart-swimming-pool/wiki/Resources](Wiki).
