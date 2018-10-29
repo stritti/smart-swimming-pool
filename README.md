@@ -37,11 +37,11 @@ Install the NodeMCU drivers for your respective operating system if they are not
 
 # Open Issues
 
-[] Move control system from openHAB to ESP
-[] replace 433MHz switches by relais
-[] Secure MQTT Communication
-[] Use weather forcast within rules
-[] Measurement of water quality (pH and Cl)
+- [ ] Move control system from openHAB to ESP
+- [ ] replace 433MHz switches by relais
+- [ ] Secure MQTT Communication
+- [ ] Use weather forcast within rules
+- [ ] Measurement of water quality (pH and Cl)
 
 # License
 
