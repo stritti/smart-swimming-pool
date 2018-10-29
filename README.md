@@ -35,6 +35,14 @@ TBD
 ## Drivers
 Install the NodeMCU drivers for your respective operating system if they are not autodetected: https://www.silabs.com/products/mcu/Pages/USBtoUARTBridgeVCPDrivers.aspx
 
+# Open Issues
+
+[] Move control system from openHAB to ESP
+[] replace 433MHz switches by relais
+[] Secure MQTT Communication
+[] Use weather forcast within rules
+[] Measurement of water quality (pH and Cl)
+
 # License
 
 [LICENSE](LICENSE)
