@@ -12,19 +12,13 @@ This is my private project to control and monitor my pool using following:
 * _ESP8266_ fo show current temeratures on LCD monitor
 * _Raspberry Pi_ hosting MQTT and OpenHAB for Smart Home automation
 
-# Pool Controller
+# Components
 
-See subproject [Pool-Controller](Pool-Controller)
+Th project is plitted in components:
 
-
-# Pool Monitor
-
-See subproject [Pool-Monitor](Pool-Monitor)
-
-
-# OpenHAB Server
-
-See subproject [OpenHAB](OpenHAB)
+* [Pool-Controller](Pool-Controller)
+* [Pool-Monitor](Pool-Monitor)
+* [OpenHAB](OpenHAB) Configuration
 
 # Development
 
@@ -36,7 +30,9 @@ TBD
 Install the NodeMCU drivers for your respective operating system if they are not autodetected: https://www.silabs.com/products/mcu/Pages/USBtoUARTBridgeVCPDrivers.aspx
 
 # Open Issues
-
+- [x] Remote control of pumps
+- [x] Rule (openHAB) to control status of pumps
+- [x] Remote control to switch between modes: Automatic, Manual, Off
 - [ ] Move control system from openHAB to ESP
 - [ ] replace 433MHz switches by relais
 - [ ] Secure MQTT Communication
