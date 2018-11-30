@@ -22,7 +22,7 @@ Th project is splitted in components:
 
 # Development
 
-There is a German blog series for this project on [https://www.az-delivery.de/blogs/azdelivery-blog-fur-arduino-und-raspberry-pi/projekt-smart-swimmingpool-einleitung?ls=de](AZ-Delivery Blog).
+There is a German blog series for this project on (AZ-Delivery Blog)[https://www.az-delivery.de/blogs/azdelivery-blog-fur-arduino-und-raspberry-pi/projekt-smart-swimmingpool-einleitung).
 
 ## Platform.io IDE
 
