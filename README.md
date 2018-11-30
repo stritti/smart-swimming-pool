@@ -14,13 +14,15 @@ This is my private project to control and monitor my pool using following:
 
 # Components
 
-Th project is plitted in components:
+Th project is splitted in components:
 
 * [Pool-Controller](Pool-Controller)
 * [Pool-Monitor](Pool-Monitor)
 * [OpenHAB](OpenHAB) Configuration
 
 # Development
+
+There is a German blog series for this project on [https://www.az-delivery.de/blogs/azdelivery-blog-fur-arduino-und-raspberry-pi/projekt-smart-swimmingpool-einleitung?ls=de](AZ-Delivery Blog).
 
 ## Platform.io IDE
 
