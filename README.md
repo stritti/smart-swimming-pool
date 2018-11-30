@@ -18,7 +18,7 @@ Th project is splitted in components:
 
 * [Pool-Controller](Pool-Controller)
 * [Pool-Monitor](Pool-Monitor)
-* [OpenHAB](OpenHAB) Configuration
+* [OpenHAB](OpenHAB Configuration)
 
 # Development
 
