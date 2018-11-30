@@ -18,11 +18,11 @@ Th project is splitted in components:
 
 * [Pool-Controller](Pool-Controller)
 * [Pool-Monitor](Pool-Monitor)
-* [OpenHAB](OpenHAB Configuration)
+* [OpenHAB Configuration](OpenHAB) 
 
 # Development
 
-There is a German blog series for this project on (AZ-Delivery Blog)[https://www.az-delivery.de/blogs/azdelivery-blog-fur-arduino-und-raspberry-pi/projekt-smart-swimmingpool-einleitung].
+There is a German blog series for this project on [AZ-Delivery Blog](https://www.az-delivery.de/blogs/azdelivery-blog-fur-arduino-und-raspberry-pi/projekt-smart-swimmingpool-einleitung).
 
 ## Platform.io IDE
 
