@@ -40,11 +40,12 @@ Install the NodeMCU drivers for your respective operating system if they are not
 
 # Open Issues
 - [x] Remote control of pumps
-- [x] Rule (openHAB) to control status of pumps
+- [x] rules (openHAB) to control status of pumps
 - [x] Remote control to switch between modes: Automatic, Manual, Off
-- [ ] Move control system from openHAB to ESP
+- [ ] Move control system (rules) from openHAB to controller (ESP)
 - [ ] replace 433MHz switches by relais
 - [ ] Secure MQTT Communication
+- [ ] Update openHAB configuration for openHAB2.4+ to support internal MQTT and Homie-Message format
 - [ ] Use weather forcast within rules
 - [ ] Measurement of water quality (pH and Cl)
 
