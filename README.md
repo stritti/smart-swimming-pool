@@ -21,7 +21,7 @@ Th project is splitted in components:
 * [OpenHAB Configuration](OpenHAB) 
 
 # Development
-- [Blog post on Medium: Project Smart Swimming Pool]](https://medium.com/@stritti/project-smart-swimmingpool-4c40eb6741f6)
+- [Blog post on Medium: Project Smart Swimming Pool](https://medium.com/@stritti/project-smart-swimmingpool-4c40eb6741f6)
 
 There is also a German blog series for this project on [AZ-Delivery Blog](https://www.az-delivery.de/):
 
