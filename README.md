@@ -21,8 +21,15 @@ Th project is splitted in components:
 * [OpenHAB Configuration](OpenHAB) 
 
 # Development
+- (Blog post on Medium: Project Smart Swimming Pool)[https://medium.com/@stritti/project-smart-swimmingpool-4c40eb6741f6)]
 
-There is a German blog series for this project on [AZ-Delivery Blog](https://www.az-delivery.de/blogs/azdelivery-blog-fur-arduino-und-raspberry-pi/projekt-smart-swimmingpool-einleitung).
+There is also a German blog series for this project on [AZ-Delivery Blog](https://www.az-delivery.de/):
+
+- [Einleitung](https://www.az-delivery.de/blogs/azdelivery-blog-fur-arduino-und-raspberry-pi/projekt-smart-swimmingpool-einleitung?ls=de)
+- [Smarte Steuerung für den Swimmingpool (1/4)](https://www.az-delivery.de/blogs/azdelivery-blog-fur-arduino-und-raspberry-pi/smarte-steuerung-fuer-den-swimmingpool-1-4?ls=de)
+- [Der Pool-Controller (2/4)](https://www.az-delivery.de/blogs/azdelivery-blog-fur-arduino-und-raspberry-pi/smarte-steuerung-fuer-den-swimmingpool-2-4?ls=de)
+- [Swimmingpool und OpenHAB (3/4)](https://www.az-delivery.de/blogs/azdelivery-blog-fur-arduino-und-raspberry-pi/smarte-steuerung-fuer-den-swimmingpool-3-4?ls=de)
+- [Der smarte Pool (4/4)](https://www.az-delivery.de/blogs/azdelivery-blog-fur-arduino-und-raspberry-pi/smarte-steuerung-fuer-den-swimmingpool-4-4?ls=de)
 
 ## Platform.io IDE
 
