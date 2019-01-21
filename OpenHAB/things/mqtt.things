@@ -1,0 +1,12 @@
+Bridge mqtt:broker:mosquitto "Mosquitto" [ host="localhost", port=1883, secure=false, clientID="openHAB2" ]
+{
+		//Pool
+		Thing topic pool "Pool" @ "Garten" {
+			Channels:
+			Type number : solarTemp		"Solar Temperatur"		[ stateTopic="/sensor/solar/temperature", transformationPattern="JSONPATH:$.value"]
+			Type number : poolTemp		"Pool Temperatur"			[ stateTopic="/sensor/pool/temperature", transformationPattern="JSONPATH:$.value"]
+			Type number : espTemp			"ESP Temperatur"			[ stateTopic="/sensor/esp/temperature", transformationPattern="JSONPATH:$.value"]
+			Type switch : pumpeSwitch "Pumpe"								[ stateTopic="/pool/switch/11111/10000/state", commandTopic="/pool/switch/11111/10000", on="on", off="off" ]
+			Type switch : solarSwitch "Solar"								[ stateTopic="/pool/switch/11111/01000/state", commandTopic="/pool/switch/11111/01000", on="on", off="off" ]
+		}
+}

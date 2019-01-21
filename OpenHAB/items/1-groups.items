@@ -24,4 +24,4 @@ Group	gBattery			"Batterie"				["object:batterie", "object:batteriestatus"]
 
 
 //Gruppe für die Sitemap-Einbindung
-Group   Settings
+Group   gSettings

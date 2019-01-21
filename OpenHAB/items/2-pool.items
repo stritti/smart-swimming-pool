@@ -8,49 +8,54 @@ String  Sensor_Device (gPool) {
 }
 DateTime Sensor_Device_StartedAt "Last Start [%1$tm.%1$td.%1$tY %1$tr]" //timestamp of the
 
-Number  Sensor_Pool_Temperature "Wasser"
+Number  Sensor_Pool_Temperature "Wasser [%.1f °C]" <temperature>
 (gPool, gTemperature, Chart_Pool_Temperature)
 ["CurrentTemperature", "object:wasser"]
 {
-    mqtt="<[mqtt:/sensor/pool/temperature:state:JSONPATH($.value)]"
+	channel="mqtt:topic:mosquitto:pool:poolTemp"
+    //mqtt="<[mqtt:/sensor/pool/temperature:state:JSONPATH($.value)]"
 }
 
-Number  Sensor_Solar_Temperature "Solar"
+Number  Sensor_Solar_Temperature "Solar [%.1f °C]" <temperature>
 (gPool, gTemperature, Chart_Pool_Temperature)
 ["CurrentTemperature", "object:solar"] {
-    mqtt="<[mqtt:/sensor/solar/temperature:state:JSONPATH($.value)]"
+	channel="mqtt:topic:mosquitto:pool:solarTemp"
+    //mqtt="<[mqtt:/sensor/solar/temperature:state:JSONPATH($.value)]"
 }
 
-Number  Sensor_ESP_Temperature "ESP"
+Number  Sensor_ESP_Temperature "ESP [%.1f °C]" <temperature>
 (gPool, gTemperature, Chart_Pool_Temperature)
 ["CurrentTemperature", "object:esp"] {
-    mqtt="<[mqtt:/sensor/esp/temperature:state:JSONPATH($.value)]"
+	channel="mqtt:topic:mosquitto:pool:espTemp"
+    //mqtt="<[mqtt:/sensor/esp/temperature:state:JSONPATH($.value)]"
 }
 
-Switch Switch_Pump "Pumpe" <switchable>
-(gPool, Chart_Pool_Switch) ["Switchable"] {
-    mqtt=">[mqtt:/pool/switch/11111/10000:command:on:default],>[mqtt:/pool/switch/11111/10000:command:off:default]"
+Switch Switch_Pump "Pumpe"
+(gPool, gSwitch, Chart_Pool_Switch) ["Switchable"] {
+	channel="mqtt:topic:mosquitto:pool:pumpeSwitch"
+    //mqtt=">[mqtt:/pool/switch/11111/10000:command:on:default],>[mqtt:/pool/switch/11111/10000:command:off:default]"
 }
 
-Switch Switch_Solar "Solar" <switchable>
-(gPool, Chart_Pool_Switch) ["Switchable"] {
-    mqtt=">[mqtt:/pool/switch/11111/01000:command:on:default],>[mqtt:/pool/switch/11111/01000:command:off:default]"
+Switch Switch_Solar "Solar"
+(gPool, gSwitch, Chart_Pool_Switch) ["Switchable"] {
+	channel="mqtt:topic:mosquitto:pool:solarSwitch"
+    //mqtt=">[mqtt:/pool/switch/11111/01000:command:on:default],>[mqtt:/pool/switch/11111/01000:command:off:default]"
 }
 
 //Steuermodus: Automatic=0, Manuell=1, Boost=2
-Number Pool_Mode "Pool Modus" 	(gPool, Chart_Pool_Mode, Settings)
+Number Pool_Mode "Pool Modus" 	(gPool, Chart_Pool_Mode, gSettings) ["capability:Switchable"]
 
 // Benoetigt, um die Zeitintervalle fuer die grafische Darstellung festlegen zu koennen
-Number  Chart_Intervall           "Chart-Intervall" (Settings)
+Number  Chart_Intervall           "Chart-Intervall" (gSettings) ["capability:Switchable"]
 
-Number  Setting_Temperature_Pool_Max           "Max. Pooltemperatur  [%.1f °C]" (Settings)
-Number  Setting_Temperature_Solar_Min          "Min. Solartemperatur  [%.1f °C]" (Settings)
-Number  Setting_Temperature_Solar_Hysteresis   "Solar Hysterese  [%.1f K]" (Settings)
+Number  Setting_Temperature_Pool_Max           "Max. Pooltemperatur  [%.1f °C]" (gSettings)
+Number  Setting_Temperature_Solar_Min          "Min. Solartemperatur  [%.1f °C]" (gSettings)
+Number  Setting_Temperature_Solar_Hysteresis   "Solar Hysterese  [%.1f K]" (gSettings)
 
-Number Setting_Time_Pool_Valve_Start_H "Stunde Poolpumpe an"   (Settings)
-Number Setting_Time_Pool_Valve_Start_M "Minuten Poolpumpe an"  (Settings)
-Number Setting_Time_Pool_Valve_Stop_H  "Stunde Poolpumpe aus"  (Settings)
-Number Setting_Time_Pool_Valve_Stop_M  "Minute Poolpumpe aus"  (Settings)
+Number Setting_Time_Pool_Valve_Start_H "Stunde Poolpumpe an"   (gSettings)
+Number Setting_Time_Pool_Valve_Start_M "Minuten Poolpumpe an"  (gSettings)
+Number Setting_Time_Pool_Valve_Stop_H  "Stunde Poolpumpe aus"  (gSettings)
+Number Setting_Time_Pool_Valve_Stop_M  "Minute Poolpumpe aus"  (gSettings)
 
 DateTime    Last_Update_DateTime    "Last Update [%1$tm.%1$td.%1$tY %1$tr]"
-DateTime    Sensor_Solar_LastError "Solar: Last Error [%1$tm.%1$td.%1$tY %1$tr]"
+DateTime    Sensor_Solar_LastError 	"Solar: Last Error [%1$tm.%1$td.%1$tY %1$tr]"
