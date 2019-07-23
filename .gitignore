@@ -31,5 +31,6 @@
 *.out
 *.app
 *.bin
-Pool-Controller/.vscode/settings.json
-Pool-Monitor/.vscode/settings.json
+
+.vscode/settings.json
+.pio/
