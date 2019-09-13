@@ -1,11 +1,9 @@
 # Smart Swimming-Pool
 
-> **New version moved to: https://github.com/smart-swimmingpool/smart-swimmingpool**
-
 Pool automation for smarter control of the swimming pool :)
 
 
-> *Update:* August 2019 - There is an improved version 2.0 of the pool contoller: [Smart Swimming Pool](https://smart-swimmingpool.github.io/smart-swimmingpool/). This project will no longe be maintained active.
+> ***Update:* August 2019 - There is an improved version 2.0 of the pool contoller: [Smart Swimming Pool](https://smart-swimmingpool.github.io/smart-swimmingpool/). This project will no longe be maintained active.**
 > *Status:* Project is sucessfully live since May 2018.
 
 # Hardware
