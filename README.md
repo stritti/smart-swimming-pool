@@ -1,6 +1,6 @@
 # Smart Swimming-Pool
 
-> New version moved to: https://github.com/smart-swimmingpool/smart-swimmingpool
+> **New version moved to: https://github.com/smart-swimmingpool/smart-swimmingpool**
 
 Pool automation for smarter control of the swimming pool :)
 
